@@ -34,4 +34,4 @@ The wall of Problem 5-35 is unchanged: a 3-cm ASME SB-96 Cu–Si plate (k = 36 W
 - Cooldown 93 → 40 °C (explicit FD, Δt = 1 s): 4,575 s = 1.27 h, versus 22,928 s = 6.37 h originally → 80.0 % less time.
 - Checks: Crank–Nicolson 4,575.6 s; 2.5-mm grid 4,575.5 s; lumped 4,417 s; one-term 4,548 s.
 
-Hand calculations: `hand_calculations/` (students: scan the node-8 Thomas step and the first two explicit time steps).
+
