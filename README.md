@@ -23,6 +23,4 @@
 * C65500 (ASME SB-96): ρ = 8530 kg/m³, c = 377 J/kg·K, k = 36 W/m·K — Wieland Diversified, "Bronze CDA 65500" data sheet.
 * 904L stainless steel: ρ = 8000 kg/m³, c = 500 J/kg·K, k = 13.0 W/m·K — Atlas Steels, "Stainless Steel 904L Grade Data Sheet", rev. 27 Apr 2021.
 
-https://atlassteels.com.au/wp-content/uploads/2021/06/Stainless-Steel-904L-Grade-Data-Sheet-27-04-21.pdf
 
-https://www.wieland-diversified.com/bronze-overview/bronze-cda-65500/
