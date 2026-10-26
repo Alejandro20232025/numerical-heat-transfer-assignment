@@ -1,0 +1,14 @@
+metric,original,adapted,improvement_percent,note
+h_comb [W/m2.K],7.76,40.0,,input
+Hottest SB-96 temperature T0 [C],117.85140761300228,39.95192307692308,,lower is better
+Rise above ambient T0 - Tinf [C],97.85140761300228,19.95192307692308,79.6099784728371,lower is better
+Total thermal resistance [m2.K/W],0.1304685434840074,0.026602564102564105,79.60997847283778,lower is better
+Heat flux through wall [W/m2],749.9999999999745,750.0,0.0,fixed by the boundary condition
+Highest allowable heat flux [W/m2],559.521843738147,2744.0963855421683,390.43597068685483,higher is better
+Biot number h*R_cond [-],0.012435897435897436,0.0641025641025641,,< 0.1 means lumped valid
+Time constant C''/h [s],17586.894329896906,3411.8574999999996,80.6,lower is better
+"Cooldown 93->40 C, node 0, explicit FD [s]",22927.657874201283,4574.992982738627,80.04596453837306,lower is better
+"Cooldown, lumped capacitance [s]",22770.229882529435,4417.42459721071,80.60000000000001,lower is better
+"Cooldown, one-term series [s]",22901.10351551413,4548.430639496024,80.13881454919965,lower is better
+"Cooldown, Crank-Nicolson [s]",22928.30598250432,4575.6455726726845,80.04368235418622,lower is better
+"Cooldown, fine grid [s]",22928.21279566659,4575.543073540172,80.04404828969075,lower is better

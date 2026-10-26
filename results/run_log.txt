@@ -1,0 +1,141 @@
+==========================================================================
+PROBLEM 5-35  -  steady finite difference solution and adaptation
+==========================================================================
+Nodes 0..8, interface node 6, dx = 5.0 mm
+q0*dx/k1 = 0.1041667 C   q0*dx/k2 = 0.2884615 C
+R_cond = L1/k1 + L2/k2 = 0.0008333 + 0.0007692 = 0.0016026 m2.K/W
+
+--- Original design: h_comb = 7.76 W/m2.K ---
+h*dx/k2 = 0.0029846   R_conv = 1/h = 0.1288660   R_total = 0.1304685 m2.K/W
+Hand-form equations  a*T(m-1) + b*T(m) + c*T(m+1) = d   and Thomas sweep
+ m        a            b        c            d    c_prime      d_prime
+ 0    0.000   -1.0000000    1.000   -0.1041667   -1.00000    0.1041667
+ 1    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.1041667
+ 2    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.1041667
+ 3    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.1041667
+ 4    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.1041667
+ 5    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.1041667
+ 6   36.000  -49.0000000   13.000    0.0000000   -1.00000    0.2884615
+ 7    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.2884615
+ 8    1.000   -1.0029846    0.000   -0.0596923    0.00000  116.6494845
+ m  x[mm]         material     T_FD[C]    T_Thomas     T_exact  resid[W/m2]
+ 0    0.0    Cu-Si (SB-96)   117.85141   117.85141   117.85141     0.00e+00
+ 1    5.0    Cu-Si (SB-96)   117.74724   117.74724   117.74724     0.00e+00
+ 2   10.0    Cu-Si (SB-96)   117.64307   117.64307   117.64307     0.00e+00
+ 3   15.0    Cu-Si (SB-96)   117.53891   117.53891   117.53891     0.00e+00
+ 4   20.0    Cu-Si (SB-96)   117.43474   117.43474   117.43474     0.00e+00
+ 5   25.0    Cu-Si (SB-96)   117.33057   117.33057   117.33057     0.00e+00
+ 6   30.0        interface   117.22641   117.22641   117.22641     0.00e+00
+ 7   35.0  stainless steel   116.93795   116.93795   116.93795     6.59e-12
+ 8   40.0  stainless steel   116.64948   116.64948   116.64948    -6.65e-12
+max |FD - exact| = 3.28e-12 C ; max |numpy - Thomas| = 4.12e-12 C
+Flux between nodes [W/m2]: 750.0000, 750.0000, 750.0000, 750.0000, 750.0000, 750.0000, 750.0000, 750.0000
+Interface continuity: k1(T5-T6)/dx = 750.000000, k2(T6-T7)/dx = 750.000000 W/m2
+Energy balance: q_in = 750.000000, q_out = h(T8-Tinf) = 750.000000 W/m2, error = -3.40e-12 %
+Hottest SB-96 temperature = T0 = 117.8514 C vs 93 C -> DOES NOT COMPLY
+q0_max = (93-20)/R = 73/0.1304685 = 559.522 W/m2 (FD check: T0 = 93.000000 C)
+
+--- Adapted design: h_comb = 40.0 W/m2.K ---
+h*dx/k2 = 0.0153846   R_conv = 1/h = 0.0250000   R_total = 0.0266026 m2.K/W
+Hand-form equations  a*T(m-1) + b*T(m) + c*T(m+1) = d   and Thomas sweep
+ m        a            b        c            d    c_prime      d_prime
+ 0    0.000   -1.0000000    1.000   -0.1041667   -1.00000    0.1041667
+ 1    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.1041667
+ 2    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.1041667
+ 3    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.1041667
+ 4    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.1041667
+ 5    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.1041667
+ 6   36.000  -49.0000000   13.000    0.0000000   -1.00000    0.2884615
+ 7    1.000   -2.0000000    1.000    0.0000000   -1.00000    0.2884615
+ 8    1.000   -1.0153846    0.000   -0.3076923    0.00000   38.7500000
+ m  x[mm]         material     T_FD[C]    T_Thomas     T_exact  resid[W/m2]
+ 0    0.0    Cu-Si (SB-96)    39.95192    39.95192    39.95192     0.00e+00
+ 1    5.0    Cu-Si (SB-96)    39.84776    39.84776    39.84776     0.00e+00
+ 2   10.0    Cu-Si (SB-96)    39.74359    39.74359    39.74359     0.00e+00
+ 3   15.0    Cu-Si (SB-96)    39.63942    39.63942    39.63942     0.00e+00
+ 4   20.0    Cu-Si (SB-96)    39.53526    39.53526    39.53526     0.00e+00
+ 5   25.0    Cu-Si (SB-96)    39.43109    39.43109    39.43109     0.00e+00
+ 6   30.0        interface    39.32692    39.32692    39.32692     0.00e+00
+ 7   35.0  stainless steel    39.03846    39.03846    39.03846     1.46e-11
+ 8   40.0  stainless steel    38.75000    38.75000    38.75000     0.00e+00
+max |FD - exact| = 0.00e+00 C ; max |numpy - Thomas| = 1.35e-13 C
+Flux between nodes [W/m2]: 750.0000, 750.0000, 750.0000, 750.0000, 750.0000, 750.0000, 750.0000, 750.0000
+Interface continuity: k1(T5-T6)/dx = 750.000000, k2(T6-T7)/dx = 750.000000 W/m2
+Energy balance: q_in = 750.000000, q_out = h(T8-Tinf) = 750.000000 W/m2, error = 0.00e+00 %
+Hottest SB-96 temperature = T0 = 39.9519 C vs 93 C -> COMPLIES
+q0_max = (93-20)/R = 73/0.0266026 = 2744.096 W/m2 (FD check: T0 = 93.000000 C)
+
+Minimum h_comb for compliance at 750 W/m2: 10.4460 W/m2.K (FD check: T0 = 93.000000 C)
+Bi = 0.1 is reached at h = 0.1/R_cond = 62.400 W/m2.K
+
+h_rad (eps = 0.9) at Ts = 40 C: 5.693 W/m2.K
+h_rad (eps = 0.9) at Ts = 93 C: 7.402 W/m2.K
+
+==========================================================================
+ADDED TRANSIENT ANALYSIS: cooldown 93 C -> 40 C, heat flux off, bottom adiabatic
+==========================================================================
+rho1*c1 = 3215810 J/m3.K, rho2*c2 = 4000000 J/m3.K, alpha1 = 1.11947e-05, alpha2 = 3.25000e-06 m2/s
+C'' = rho1 c1 L1 + rho2 c2 L2 = 96474.3 + 40000.0 = 136474.3 J/m2.K
+Node capacities C_m [J/m2.K]: 8039.5, 16079.1, 16079.1, 16079.1, 16079.1, 16079.1, 18039.5, 20000.0, 10000.0
+
+--- Original: h = 7.76 ---
+tau1 = 0.447788, tau2 = 0.130000, beta = 0.0110868, h*dx/k2 = 0.0029846
+Stability limit dt_crit = 1.1166 s (dt used = 1.0 s)
+Self-coefficients (1 - dt*K_mm/C_m): 0.104425, 0.104425, 0.104425, 0.104425, 0.104425, 0.104425, 0.456748, 0.740000, 0.739224
+First steps (all nodes):
+  t = 0 s: 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000
+  t = 1 s: 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 92.943352
+  t = 2 s: 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 92.992636, 92.901476
+Biot number Bi = h*R_cond = 0.01244  (lumped valid if < 0.1)
+Explicit FD  : node 0 reaches 40 C at 22927.7 s = 6.3688 h
+               mass-weighted mean reaches 40 C at 22893.7 s
+Crank-Nicolson (dt = 10 s): 22928.3 s
+Explicit, dx = 2.5 mm, dt = 0.25 s: 22928.2 s
+Lumped: tau = C''/h = 17586.9 s, t = tau*ln(73/20) = 22770.2 s
+One-term: lambda1 = 0.111286, A1 = 1.002064, Fo = 104.710, t = 22901.1 s
+Transient energy balance error = -5.02e-15
+
+--- Adapted: h = 40.0 ---
+tau1 = 0.447788, tau2 = 0.130000, beta = 0.0110868, h*dx/k2 = 0.0153846
+Stability limit dt_crit = 1.1166 s (dt used = 1.0 s)
+Self-coefficients (1 - dt*K_mm/C_m): 0.104425, 0.104425, 0.104425, 0.104425, 0.104425, 0.104425, 0.456748, 0.740000, 0.736000
+First steps (all nodes):
+  t = 0 s: 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000
+  t = 1 s: 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 92.708000
+  t = 2 s: 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 93.000000, 92.962040, 92.493088
+Biot number Bi = h*R_cond = 0.06410  (lumped valid if < 0.1)
+Explicit FD  : node 0 reaches 40 C at 4575.0 s = 1.2708 h
+               mass-weighted mean reaches 40 C at 4541.0 s
+Crank-Nicolson (dt = 10 s): 4575.6 s
+Explicit, dx = 2.5 mm, dt = 0.25 s: 4575.5 s
+Lumped: tau = C''/h = 3411.9 s, t = tau*ln(73/20) = 4417.4 s
+One-term: lambda1 = 0.250511, A1 = 1.010447, Fo = 20.797, t = 4548.4 s
+Transient energy balance error = -5.13e-16
+
+==========================================================================
+SUMMARY
+==========================================================================
+h_comb [W/m2.K]                                    7.7600      40.0000             input
+Hottest SB-96 temperature T0 [C]                 117.8514      39.9519             lower is better
+Rise above ambient T0 - Tinf [C]                  97.8514      19.9519    79.61 %  lower is better
+Total thermal resistance [m2.K/W]                  0.1305       0.0266    79.61 %  lower is better
+Heat flux through wall [W/m2]                    750.0000     750.0000     0.00 %  fixed by the boundary condition
+Highest allowable heat flux [W/m2]               559.5218    2744.0964   390.44 %  higher is better
+Biot number h*R_cond [-]                           0.0124       0.0641             < 0.1 means lumped valid
+Time constant C''/h [s]                        17586.8943    3411.8575    80.60 %  lower is better
+Cooldown 93->40 C, node 0, explicit FD [s]     22927.6579    4574.9930    80.05 %  lower is better
+Cooldown, lumped capacitance [s]               22770.2299    4417.4246    80.60 %  lower is better
+Cooldown, one-term series [s]                  22901.1035    4548.4306    80.14 %  lower is better
+Cooldown, Crank-Nicolson [s]                   22928.3060    4575.6456    80.04 %  lower is better
+Cooldown, fine grid [s]                        22928.2128    4575.5431    80.04 %  lower is better
+Speed-up factor (FD) = 5.012x
+
+SENSITIVITY (one change at a time, original design as reference)
+Original design                    T0 =  117.851 C (  +0.000)   cooldown =  6.369 h (   0.0 % faster)
+k1 doubled (36 -> 72)              T0 =  117.539 C (  -0.312)   cooldown =  6.363 h (   0.1 % faster)
+k2 doubled (13 -> 26)              T0 =  117.563 C (  -0.288)   cooldown =  6.353 h (   0.2 % faster)
+L1 halved (30 -> 15 mm)            T0 =  117.539 C (  -0.312)   cooldown =  4.110 h (  35.5 % faster)
+L2 halved (10 -> 5 mm)             T0 =  117.563 C (  -0.288)   cooldown =  5.425 h (  14.8 % faster)
+h_comb doubled (7.76 -> 15.52)     T0 =   69.527 C ( -48.325)   cooldown =  3.206 h (  49.7 % faster)
+Air 10 C cooler (20 -> 10 C)       T0 =  107.851 C ( -10.000)   cooldown =  5.008 h (  21.4 % faster)
+Adapted design (h_comb = 40)       T0 =   39.952 C ( -77.899)   cooldown =  1.271 h (  80.0 % faster)
